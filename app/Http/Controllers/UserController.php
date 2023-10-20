@@ -5,25 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User; // Adicione o use statement para o modelo User
 use Illuminate\Support\Facades\Hash; // Adicione o use statement para o Hash
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function create(Request $request)
-{
-    $existingUser = User::where('username', $request->username)->first();
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'username' => 'required|unique:users',
+            'password' => 'required|min:6',
+        ]);
 
-    if ($existingUser) {
-        return response()->json(['message' => 'Username already exists'], 400);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'username' => $request->input('username'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        return response()->json(['message' => 'User registered successfully']);
     }
-
-    $user = User::create([
-        'name' => $request->name,
-        'username' => $request->username,
-        'password' => Hash::make($request->password),
-    ]);
-
-    return response()->json(['message' => 'User created successfully'], 201);
-}
 
 public function update(Request $request)
 {
@@ -68,17 +74,17 @@ public function update(Request $request)
     }
 
     public function login(Request $request)
-    {
-        $user = User::where('username', $request->username)->first();
+        {
+            $credentials = $request->only(['username', 'password']);
+            if (Auth::attempt($credentials) != 1) {
+                return response()->json(['message' => 'Invalid username or password'], 401);
+            }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid username or password'], 401);
+            $user = $request->user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
         }
-
-        $token = $user->createToken($request->username)->plainTextToken;
-
-        return response()->json(['token' => $token], 200);
-    }
 
     
 }

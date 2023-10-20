@@ -3,11 +3,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
-Route::post('/login', 'App\Http\Controllers\AuthController@login');
+Route::post('/login', 'App\Http\Controllers\UserController@login');
 
 
 // Rotas para usuários
-// Route::post('/users', 'App\Http\Controllers\UserController@create');
 Route::get('/users/{id}', 'App\Http\Controllers\UserController@get');
 Route::put('/users/{id}', 'App\Http\Controllers\UserController@update');
 Route::delete('/users/{id}', 'App\Http\Controllers\UserController@delete');
@@ -20,7 +19,7 @@ Route::delete('/topics/{id}', 'App\Http\Controllers\TopicController@delete');
 
 // // Rotas para comentários
 Route::post('/comments', 'App\Http\Controllers\CommentController@create');
-Route::get('/comments/{id}', 'App\Http\Controllers\CommentController@get');
+Route::get('/comment/{id}', 'App\Http\Controllers\CommentController@get');
 Route::get('/comments/{id}', 'App\Http\Controllers\CommentController@list');
 Route::put('/comments/{id}', 'App\Http\Controllers\CommentController@update');
 Route::delete('/comments/{id}', 'App\Http\Controllers\CommentController@delete');
@@ -46,3 +45,7 @@ Route::delete('/dislikes/{id}', 'App\Http\Controllers\DislikeController@delete')
  Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
      return $request->user();
  });
+ Route::middleware('auth:api')->group(function () {
+    // Rotas protegidas
+    Route::get('/protected', 'ProtectedController@index');
+});

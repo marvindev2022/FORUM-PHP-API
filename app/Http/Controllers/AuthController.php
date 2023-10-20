@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -28,33 +29,19 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'User registered successfully']);
     }
-
+    
     public function login(Request $request)
-    {
-        $credentials = $request->only(['username', 'password']);
+{
+    $credentials = $request->only(['username', 'password']);
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid username or password'], 401);
-        }
-
-        $user = $request->user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Invalid username or password'], 401);
     }
 
-    public function editUser(Request $request)
-    {
-        $user = User::find($request->input('id'));
-        
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
+    $user = $request->user();
+    $token = $user->createToken('auth_token')->plainTextToken;
 
-        $user->name = $request->input('name');
-        $user->username = $request->input('username');
-        $user->save();
+    return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+}
 
-        return response()->json(['message' => 'User updated successfully'], 200);
-    }
 }

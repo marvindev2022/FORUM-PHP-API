@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport; // Adicione esta linha para importar a classe Passport
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,10 +12,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-  public function register(){
-  
-  }
-  
+    public function register()
+    {
+        Passport::routes();
+    }
 
     /**
      * Bootstrap any application services.
@@ -23,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Passport::routes(); // Registra as rotas do Passport
-
         // Defina o número máximo de caracteres para chaves únicas no banco de dados, se necessário.
         \Schema::defaultStringLength(191);
     }
