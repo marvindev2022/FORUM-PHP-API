@@ -11,10 +11,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-        //
-    }
+  public function register(){
+  
+  }
+  
 
     /**
      * Bootstrap any application services.
@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Passport::routes(); // Registra as rotas do Passport
+
+        // Defina o número máximo de caracteres para chaves únicas no banco de dados, se necessário.
+        \Schema::defaultStringLength(191);
     }
 }
