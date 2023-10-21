@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Passport; // Adicione esta linha para importar a classe Passport
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Passport::routes();
     }
 
     /**
