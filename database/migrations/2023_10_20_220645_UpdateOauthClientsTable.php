@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class UpdateOauthClientsTable extends Migration
+{
+    public function up()
+    {
+        Schema::table('oauth_clients', function (Blueprint $table) {
+
+            $table->string('user_id', 36)->change(); // Altera o tipo de dado da coluna para aceitar UUIDs
+        });
+    }
+
+
+
+
+    
+
+    public function down()
+    {
+        Schema::table('oauth_clients', function (Blueprint $table) {
+            $table->string('user_id', 36)->change(); // Reverta a alteração, se necessário
+        });
+    }
+}

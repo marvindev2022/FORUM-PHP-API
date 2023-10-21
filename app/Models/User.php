@@ -27,6 +27,7 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->id = Uuid::uuid4()->toString(); 
+            
         });
     }
 

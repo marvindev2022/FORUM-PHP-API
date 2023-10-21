@@ -17,6 +17,8 @@ return [
         'expire' => 60,
     ],
     'oauth_clients' => 'oauth_clients',
+    'private_key' => storage_path('oauth-private.key'),
+    'public_key' => storage_path('oauth-public.key'),
 
     'personal_access_client_id' => env('PERSONAL_ACCESS_CLIENT_ID', 2),
 

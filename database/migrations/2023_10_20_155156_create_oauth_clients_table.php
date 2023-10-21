@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +11,7 @@ class CreateOauthClientsTable extends Migration
         Schema::create('oauth_clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('user_id', 36)->nullable(); // Use string para UUID
+            $table->string('user_id', 36); // Use string para UUID
             $table->string('secret', 255);
             $table->string('provider')->nullable();
             $table->text('redirect');
