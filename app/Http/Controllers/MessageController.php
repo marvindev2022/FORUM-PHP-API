@@ -38,5 +38,10 @@ class MessageController extends Controller
 
         return response()->json($messages, 200);
     }
-    
+    public function get(Request $request)
+    {
+        $message = Message::with('user')->find($request->id);
+
+        return response()->json($message, 200);
+    }
 }

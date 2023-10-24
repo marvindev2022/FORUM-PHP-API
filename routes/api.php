@@ -22,6 +22,13 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::put('/topics/{id}', 'App\Http\Controllers\TopicController@update');
     Route::delete('/topics/{id}', 'App\Http\Controllers\TopicController@delete');
 
+    Route::post('/messages', 'App\Http\Controllers\MessageController@create');
+    Route::get('/messages', 'App\Http\Controllers\MessageController@list');
+    Route::get('/messages/{id}', 'App\Http\Controllers\MessageController@get');
+    Route::put('/messages/{id}', 'App\Http\Controllers\MessageController@update');
+    Route::delete('/messages/{id}', 'App\Http\Controllers\MessageController@delete');
+    
+
     Route::post('/comments', 'App\Http\Controllers\CommentController@create');
     Route::get('/comment/{id}', 'App\Http\Controllers\CommentController@get');
     Route::get('/comments/{id}', 'App\Http\Controllers\CommentController@list');
