@@ -129,7 +129,7 @@ class UserController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
                 $token = JWTAuth::fromUser($user);
-                return response()->json(['id' => $user->id, 'username' => $user->username, 'token' => $token], 200);
+                return response()->json(['id' => $user->id, 'name' => $user->name, 'username' => $user->username, 'token' => $token], 200);
             } else {
                 return response()->json(['message' => 'Invalid username or password'], 401);
             }

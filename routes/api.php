@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::routes();
 
 //rotas que não precisam de token
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
@@ -14,6 +17,7 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::delete('/users/{id}', 'App\Http\Controllers\UserController@delete');
 
     Route::post('/topics', 'App\Http\Controllers\TopicController@create');
+    Route::get('/topics', 'App\Http\Controllers\TopicController@list');
     Route::get('/topics/{id}', 'App\Http\Controllers\TopicController@get');
     Route::put('/topics/{id}', 'App\Http\Controllers\TopicController@update');
     Route::delete('/topics/{id}', 'App\Http\Controllers\TopicController@delete');

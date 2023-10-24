@@ -25,4 +25,6 @@ class AppServiceProvider extends ServiceProvider
         // Defina o número máximo de caracteres para chaves únicas no banco de dados, se necessário.
         \Schema::defaultStringLength(191);
     }
+    
 }
+
