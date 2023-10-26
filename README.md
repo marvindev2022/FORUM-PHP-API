@@ -1,6 +1,7 @@
 # Fórum de Discussão - Backend
 
 ## Descrição
+
 Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de LMS SaaS. Ele gerencia todas as operações do fórum, como criação de tópicos, postagem de mensagens, pesquisa por categorias, entre outras funcionalidades.
 
 ### Requisitos Técnicos
@@ -39,7 +40,7 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
 
 6. Inicie o servidor de desenvolvimento.
 
-   ```
+   ```js
    php artisan serve
    ```
 
