@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\QueryException; 
+use Illuminate\Database\QueryException;
+use Tymon\JWTAuth\Facades\JWTAuth as JWTAuth;
+
 class UserController extends Controller
 {
     public function register(Request $request)
@@ -26,7 +28,7 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $request->input('name'),
                 'username' => $request->input('username'),
-                'password' => Hash::make($request->input('password')), // Use Hash::make to hash the password
+                'password' => Hash::make($request->input('password')),
             ]);
 
             return response()->json(['message' => 'User registered successfully']);
@@ -37,21 +39,30 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         try {
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
             $existingUser = User::where('username', $request->input('username'))
-                ->where('id', '!=', $request->input('id'))
+                ->where('id', '!=', $id)
                 ->first();
 
             if ($existingUser) {
                 return response()->json(['message' => 'Nome de usuário já existe'], 400);
             }
 
-            $user = User::find($request->input('id'));
             $user->name = $request->input('name');
             $user->username = $request->input('username');
-            $user->password = Hash::make($request->input('password')); // Criptografe a nova senha
+
+            if ($request->has('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+
             $user->save();
 
             return response()->json(['message' => 'Usuário atualizado com sucesso'], 200);
@@ -61,6 +72,10 @@ class UserController extends Controller
             return response()->json(['error' => $e], 500);
         }
     }
+
+
+
+
 
     public function delete(Request $request)
     {
@@ -113,8 +128,8 @@ class UserController extends Controller
             $credentials = $request->only(['username', 'password']);
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
-                $token = $user->createToken('authToken')->accessToken;
-                return response()->json(['user_id' => $user->id, 'name' => $user->name]);
+                $token = JWTAuth::fromUser($user);
+                return response()->json(['id' => $user->id, 'name' => $user->name, 'username' => $user->username, 'token' => $token], 200);
             } else {
                 return response()->json(['message' => 'Invalid username or password'], 401);
             }
@@ -122,7 +137,7 @@ class UserController extends Controller
             return response()->json(['error' => $e], 500);
         }
     }
-    
+
 
     public function logout(Request $request)
     {

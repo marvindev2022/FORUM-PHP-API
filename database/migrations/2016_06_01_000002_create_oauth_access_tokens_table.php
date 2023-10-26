@@ -38,14 +38,4 @@ return new class() extends Migration
 
         $schema->dropIfExists('oauth_access_tokens');
     }
-
-    /**
-     * Get the migration connection name.
-     *
-     * @return string|null
-     */
-    public function getConnection()
-    {
-        return config('passport.storage.database.connection');
-    }
 };

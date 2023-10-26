@@ -20,20 +20,34 @@ class TopicController extends Controller
 
     public function update(Request $request)
     {
-        $topic = Topico::find($request->id);
+        $topic = Topic::find($request->id);
         $topic->title = $request->title;
         $topic->content = $request->content;
         $topic->user_id = $request->user_id;
         $topic->save();
 
-        return response()->json(['message' => 'Topico updated successfully'], 200);
+        return response()->json(['message' => ' updated successfully'], 200);
     }
 
     public function delete(Request $request)
     {
-        $topic = Topico::find($request->id);
+        $topic = Topic::find($request->id);
         $topic->delete();
 
         return response()->json(['message' => 'Topico deleted successfully'], 200);
     }
+    public function list()
+{
+    $topics = Topic::with('user')->get();
+
+    return response()->json($topics, 200);
+}
+public function get($id)
+{
+    $topic = Topic::with('user')->find($id);
+
+    return response()->json($topic, 200);
+
+
+}
 }
