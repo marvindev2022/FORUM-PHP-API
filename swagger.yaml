@@ -1,0 +1,517 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Api Forum
+  description: Api plataforma LMS
+
+servers:
+- url: http://localhost:8000/api
+  description: Servidor local
+
+
+
+tags:
+- name: Usuários
+- name: Comments
+- name: Messages
+- name: Likes
+- name: Dislikes
+
+paths:
+  /register:
+    post:
+      tags:
+      - Usuários
+      summary: Cadastrar novo usuário
+      description: Rota para cadastrar um novo usuário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegistered"
+            examples:
+              Exemple Json:
+                value:
+                  name: "Nome do usuário"
+                  username: "username"
+                  password: "senha123"
+              Exemple Type:
+                value:
+                  name: "string"
+                  username: "string"
+                  password: "string"
+
+      responses:
+        "201":
+          description: Usuário cadastrado com sucesso!
+        "400":
+          description: Erro ao cadastrar usuário!
+  /login:
+    post:
+      tags:
+      - Usuários
+      summary: Login usuário
+      description: Rota login do usuário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+            examples:
+              Example Json:
+                value:
+                  username: "username"
+                  password: "123456"
+              Example Type:
+                value:
+                  username: "string"
+                  password: "string"
+
+      responses:
+        "201":
+          description: Dados Usuário
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+              examples:
+                Example Json:
+                  value:
+                    id: "be89466a-361e-4e56-9ca9-89ace992fac0"
+                    name: "Marcus Roza"
+                    username: "marvindev"
+                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTA0NzIyMjR9.waD5hRyJ8MLUzMA3BykDcV0sXYFnprGh7My136j5Slo"
+
+        "400":
+          description: Erro ao logar usuário!
+  /users/{userId}/edit:
+    put:
+      tags:
+      - Usuários
+      summary: Editar dados do usuário
+      description: Rota para editar dados do usuário.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: ID do usuário
+        schema:
+          type: integer
+          format: int64
+          example: 123
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEdited"
+            examples:
+              Example Json:
+                value:
+                  name: "Nome do usuário"
+                  username: "username"
+                  password: "senha123"                  
+              Exemple Type:
+                value:
+                  name: "string"
+                  username: "string"
+                  password: "string"
+      responses:
+        "201":
+          description: Usuário cadastrado com sucesso!
+        "400":
+          description: Erro interno!
+  /users/{userId}/find:
+    get:
+      tags:
+      - Usuários
+      summary: Buscar dados do usuário
+      description: Rota para listar dados do usuário.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: ID do usuário
+        schema:
+          type: integer
+          format: int64
+          example: 123
+      responses:
+        "201":
+          description: Dados do Usuário
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+              examples:
+                Example Json:
+                  value:
+                    name: "Nome do usuário"
+                    username: "username"
+                    password: "senha123"
+        "400":
+          description: Erro interno!
+          content:
+            application/json:
+              examples:
+                Example Json:
+                  value: '{"message": "Erro interno na API."}'
+  
+  /users/{userId}/del:
+    delete:
+      tags:
+      - Usuários
+      summary: Deletar usuário por ID
+      description: Rota para deletar um usuário pelo ID.
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: ID do usuário a ser deletado
+        schema:
+          type: integer
+          format: int64
+          example: 123
+      responses:
+        "204":
+          description: Usuário deletado com sucesso.
+        "404":
+          description: Usuário não encontrado.
+  /message:
+    post:
+      tags:
+      - Message
+      summary: Cria uma nova mensagem
+      description: Rota para criar uma nova mensagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageInput"
+            examples:
+              Example Json:
+                value:
+                  content: "Conteúdo da mensagem"
+                  user_Id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+      responses:
+        "201":
+          description: Mensagem registrada
+  /message/{messageId}/delete:
+    delete:
+      tags:
+      - Message
+      summary: Deletar mensagem por ID
+      description: Rota para deletar uma mensagem pelo ID.
+      parameters:
+      - name: messageId
+        in: path
+        required: true
+        description: ID da mensagem
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Mensagem deletada com sucesso
+        "404":
+          description: Mensagem não encontrada
+  /message/{messageId}/find:
+    get:
+      tags:
+      - Message
+      summary: Buscar mensagem por ID
+      description: Rota para buscar uma mensagem pelo ID.
+      parameters:
+      - name: messageId
+        in: path
+        required: true
+        description: ID da mensagem
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Mensagem encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageInput"
+              examples:
+                Example Json:
+                  value:
+                    content: "Conteúdo da mensagem"
+                    user_Id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+        "404":
+          description: Mensagem não encontrada
+  /topics:
+    post:
+      tags:
+      - Topics
+      summary: Cria um novo tópico
+      description: Rota para criar um novo tópico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TopicInput"
+            examples:
+              Example Json:
+                value:
+                  title: "Título do tópico"
+                  content: "Conteúdo do tópico"
+                  user_Id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+      responses:
+        "201":
+          description: Tópico registrado
+  /topics/{topicId}/delete:
+    delete:
+      tags:
+      - Topics
+      summary: Deletar tópico por ID
+      description: Rota para deletar um tópico pelo ID.
+      parameters:
+      - name: topicId
+        in: path
+        required: true
+        description: ID do tópico
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Tópico deletado com sucesso
+        "404":
+          description: Tópico não encontrado
+  /topics/all:
+    get:
+      tags:
+      - Topics
+      summary: Buscar todos os tópicos
+      description: Rota para buscar todos os tópicos.
+      responses:
+        "200":
+          description: Tópicos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopicInput"
+              examples:
+                Example Json:
+                  value:
+                    title: "Título do tópico"
+                    content: "Conteúdo do tópico"
+                    user_Id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+        "404":
+          description: Tópicos não encontrados
+  /topics/{id}/find/:
+    get:
+      tags:
+      - Topics
+      summary: Buscar tópico por ID
+      description: Rota para buscar um tópico pelo ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID do tópico
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Tópico encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopicInput"
+              examples:
+                Example Json:
+                  value:
+                    title: "Título do tópico"
+                    content: "Conteúdo do tópico"
+                    user_Id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+        "404":
+          description: Tópico não encontrado
+  /comments/{commentId}/all:
+    get:
+      tags:
+      - Comments
+      summary: Lista de comentários
+      description: Rota para listar todos os comentários.
+      responses:
+        "200":
+          description: Comentários encontrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+              examples:
+                Example Json:
+                  value:
+                    content: "Conteúdo do comentário"
+                    user_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+                    topic_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+        "404":
+          description: Comentários não encontrados
+
+  /comments/{commentId}/find:
+    get:
+      tags:
+      - Comments
+      summary: Buscar comentário por ID
+      description: Rota para buscar um comentário pelo ID.
+      parameters:
+      - name: commentId
+        in: path
+        required: true
+        description: ID do comentário
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Comentário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+              examples:
+                Example Json:
+                  value:
+                    content: "Conteúdo do comentário"
+                    user_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+                    topic_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+        "404":
+          description: Comentário não encontrado
+  /comments:
+    post:
+      tags:
+      - Comments
+      summary: Criar novo comentário
+      description: Rota para criar um novo comentário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+            examples:
+              Example Json:
+                value:
+                  content: "Conteúdo do comentário"
+                  user_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+                  topic_id: "92d43331-87ef-4a9e-ad44-34c3b277628b"
+      responses:
+        "201":
+          description: Comentário cadastrado com sucesso!
+        "400":
+          description: Erro ao cadastrar comentário!
+
+components:
+  schemas:
+    UserRegistered:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        cpf:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        address:
+          type: object
+          properties:
+            cep:
+              type: string
+            complement:
+              type: string
+
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    UserEdited:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        cpf:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        address:
+          type: object
+          properties:
+            cep:
+              type: string
+            complement:
+              type: string
+
+    UserList:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        cpf:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        address:
+          type: object
+          properties:
+            cep:
+              type: string
+            complement:
+              type: string
+
+    TopicInput:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        user_Id:
+          type: string
+
+    
+    
+    MessageInput:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        senderId:
+          type: string
+        receiverId:
+          type: string
+
+    Comment:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        senderId:
+          type: string
+        receiverId:
+          type: string 
+ 
