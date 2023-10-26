@@ -30,7 +30,7 @@ Route::middleware(['jwt.auth'])->group(function () {
 
     Route::post('/comments', 'App\Http\Controllers\CommentController@create');
     Route::get('/comment/{id}/find', 'App\Http\Controllers\CommentController@get');
-    Route::get('/comments/all', 'App\Http\Controllers\CommentController@list');
+    Route::get('/comments/{id}/all', 'App\Http\Controllers\CommentController@list');
     Route::put('/comments/{id}/edit', 'App\Http\Controllers\CommentController@update');
     Route::delete('/comments/{id}/delete', 'App\Http\Controllers\CommentController@delete');
 

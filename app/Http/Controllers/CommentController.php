@@ -44,9 +44,9 @@ class CommentController extends Controller
         return response()->json(['comment' => $comment], 200);
     }
 
-    public function list()
+    public function List(Request $request)
     {
-        $comments = Comment::all();
+        $comments = Comment::all()->where('topic_id', $request->id);
 
         return response()->json(['comments' => $comments], 200);
     }
