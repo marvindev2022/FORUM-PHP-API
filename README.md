@@ -14,13 +14,13 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
 1. Clone este repositório.
 
    ```
-   git clone <URL do Repositório>
+   git clone git@gitlab.com:marvindev2022/forum-backend.git
    ```
 
 2. Navegue até a pasta do projeto.
 
    ```
-   cd backend
+   cd forum-backend
    ```
 
 3. Instale as dependências.
@@ -43,7 +43,7 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
    php artisan serve
    ```
 
-7. O backend estará disponível em `http://localhost:8000`.
+7. O backend estará disponível em `http://localhost:8000/api`.
 
 #### Estrutura do Projeto
 
@@ -55,7 +55,7 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
 
 #### Documentação
 
-- [Swagger](link_da_documentacao)
+- [Documentação da api - Swagger](https://app.swaggerhub.com/apis-docs/MAVIROLERO/forum-api/1.0.0)
 
 #### Autor
 
