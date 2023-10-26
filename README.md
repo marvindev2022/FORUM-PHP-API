@@ -13,19 +13,19 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
 
 1. Clone este repositório.
 
-   ```
+   ```js
    git clone git@gitlab.com:marvindev2022/forum-backend.git
    ```
 
 2. Navegue até a pasta do projeto.
 
-   ```
+   ```js
    cd forum-backend
    ```
 
 3. Instale as dependências.
 
-   ```
+   ```js
    composer install
    ```
 
@@ -33,7 +33,7 @@ Este é o backend da aplicação de "Fórum de Discussão" para a plataforma de 
 
 5. Execute as migrações para criar as tabelas no banco de dados.
 
-   ```
+   ```js
    php artisan migrate
    ```
 
