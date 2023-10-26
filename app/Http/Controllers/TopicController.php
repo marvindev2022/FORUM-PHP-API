@@ -42,5 +42,12 @@ class TopicController extends Controller
 
     return response()->json($topics, 200);
 }
+public function get($id)
+{
+    $topic = Topic::with('user')->find($id);
 
+    return response()->json($topic, 200);
+
+
+}
 }

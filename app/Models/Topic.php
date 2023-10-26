@@ -15,11 +15,10 @@ class Topic extends Model
     ];
 
     protected $with = ['user']; 
-    protected $primaryKey = 'id'; // Nome da coluna de chave primária
-    public $incrementing = false; // Não use autoincrement
-    protected $keyType = 'string'; // Tipo de dado da chave primária
+    protected $primaryKey = 'id'; 
+    public $incrementing = false; 
+    protected $keyType = 'string'; 
 
-    // Método para gerar um UUID antes de criar um novo registro
     protected static function boot()
     {
         parent::boot();

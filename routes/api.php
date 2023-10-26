@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::routes();
 
-//rotas que não precisam de token
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
 Route::post('/login', 'App\Http\Controllers\UserController@login');
 
@@ -27,11 +26,11 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::get('/messages/{id}', 'App\Http\Controllers\MessageController@get');
     Route::put('/messages/{id}', 'App\Http\Controllers\MessageController@update');
     Route::delete('/messages/{id}', 'App\Http\Controllers\MessageController@delete');
-    
+
 
     Route::post('/comments', 'App\Http\Controllers\CommentController@create');
     Route::get('/comment/{id}', 'App\Http\Controllers\CommentController@get');
-    Route::get('/comments/{id}', 'App\Http\Controllers\CommentController@list');
+    Route::get('/comments', 'App\Http\Controllers\CommentController@list');
     Route::put('/comments/{id}', 'App\Http\Controllers\CommentController@update');
     Route::delete('/comments/{id}', 'App\Http\Controllers\CommentController@delete');
 
@@ -51,9 +50,7 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::delete('/dislikes/{id}', 'App\Http\Controllers\DislikeController@delete');
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/protected', 'ProtectedController@index');
 });

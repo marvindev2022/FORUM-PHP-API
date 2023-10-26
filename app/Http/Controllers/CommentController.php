@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Comment; 
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -44,7 +44,7 @@ class CommentController extends Controller
         return response()->json(['comment' => $comment], 200);
     }
 
-    public function list(Request $request)
+    public function list()
     {
         $comments = Comment::all();
 
